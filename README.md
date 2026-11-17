@@ -1,11 +1,12 @@
+
 # PIC18F4520 音樂節奏遊戲機｜專題規劃 README
 
 > **狀態：提案草案 v0.1（2026-11-17）**  
-> 主控限定 PIC18F4520；不使用其他開發板取代主控。以下成本為**粗估預算，非即時報價**；實際規格、供貨與課程允許的模組需確認。
+> 主控限定 PIC18F4520；不使用其他開發板取代主控。以下成本為**粗估預算**；實際規格、供貨與課程允許的模組需確認。
 
-![系統全視角概念圖](./readme_style_infographic_in_chinese_for_a_pic18f45.png)
+<img width="1322" height="1190" alt="PIC18F4520 音樂節奏遊戲完整專題資訊圖 infographics" src="https://github.com/user-attachments/assets/9e9646c3-d8d6-4b55-91c3-91a0908e892d" />
 
-> 上圖為**概念示意，非已完成的實體作品或最終電路圖**。圖中部分器材型號、價格與日期僅供示意，**以本 README 的文字規劃為準**。
+> 上圖為**概念示意圖**。圖中部分器材型號、價格與日期僅供示意，**以本 README 的文字規劃為準**。
 
 ## 1. 專題定位與遊戲體驗
 
@@ -59,6 +60,9 @@ flowchart LR
     PIC <-->|UART| MP3[DFPlayer Mini + 喇叭]
     PIC <-->|UART 可選| PC[PC / Unity 鏡像畫面]
 ```
+
+<img width="1940" height="1320" alt="mermaid-diagram" src="https://github.com/user-attachments/assets/cca362de-1422-4ec4-924b-a1e65dfcd4c2" />
+
 
 **SPI 設計注意**：MAX7219 使用類 SPI 的單向資料介面與 LOAD/CS，可多顆串接；W25Q32 是標準 SPI Flash。若共用 SCK/MOSI，須規劃獨立 CS、讀取時序及 MAX7219 LOAD 的控制。PIC18F4520 僅有一組 MSSP，I²C OLED／IMU 與硬體 SPI 同時使用時，需採軟體 I²C、改用 SPI 版本元件或重新分配介面。**3.3V Flash／IMU 與 5V PIC 之間要確認電壓相容與電平轉換**。
 
@@ -128,6 +132,9 @@ flowchart TD
     END -->|否| TICK
     END -->|是| RESULT[結算與重玩]
 ```
+
+<img width="1202" height="1352" alt="mermaid-diagram (1)" src="https://github.com/user-attachments/assets/e56a273e-9146-4ac6-a438-a71d9e8b139a" />
+
 
 **音訊同步風險**：DFPlayer 接收 UART 指令後不會保證零延遲播放；建議先量測播放起始延遲並設定 offset，且盡量避免遊戲中途反覆重新播放。若改為 Unity 播放音樂，必須明確定義 PC 與 PIC 之間誰是主時鐘。
 
